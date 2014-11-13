@@ -3,11 +3,11 @@ dir = "~/Data/Confocal/PC_PYRONE_ET_281014"
 experiment = "PYExp12"
 code = "PYE4002"
 datadir = "processed"
-setwd(paste(dir,experiment,datadir,sep="/"))
 filepath = paste(dir,experiment,datadir,code,sep="/")
 
-data.sources = list.files(pattern="*.csv")
-dat <- lapply(data.sources,read.csv)
+data.sources = list.files(paste(dir,experiment,datadir,sep="/"),pattern="*.csv")
+full_path_sources = paste(dirme,data.sources,sep="/")
+dat <- lapply(full_path_sources,read.csv)
 imgdat <- do.call(rbind, dat)
 
 assign(code,imgdat)
