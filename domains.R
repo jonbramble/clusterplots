@@ -6,17 +6,16 @@ source('~/Programming/R/clusterplot/compound.R')
 source('~/Programming/R/clusterplot/exp_match.R')
 
 dir = "/media/mbajb/My Passport/Jonathan/Nottingham/common"
-data.sources = list.files(dir,pattern="*.rda")
-full_path_sources = paste(dir,data.sources,sep="/")
-sapply(full_path_sources,load,.GlobalEnv)
+data.sources = list.files(dir,pattern="*.rda",full.names=TRUE)
+sapply(data.sources,load,.GlobalEnv)
 
 lfiles <- as.list(ls(pattern="^PY")) #convert the list of rda files to an R list of names
 lnames <- lapply(lfiles,as.name)
 ldat <- lapply(lnames,eval)
 
 PYA <- do.call(rbind,ldat)
-PYA <- PYA[order(PYA$Experiment),]
-save(PYA,file="PYA.rda")
+#PYA <- PYA[order(PYA$Experiment),]
+save(PYA,file=paste(dir,"PYA.rda",sep="/"))
 
 chart.binwidth <- 1
 chart.title <- paste("Domain Area")
@@ -34,7 +33,15 @@ colnames(dis) <- c("ImageName","Count")
 dis$Session <- sapply(dis$ImageName,session_match)
 dis$path <- paste(paste('"',paste(dir,dis$Session,'processed',paste(dis$ImageName,'-mask"',sep=''),sep='/'),sep=''),"png",sep=".")
 
-
 p <- ggplot(data=PYA,aes(x=Area,fill=factor(Amount)))
-p + geom_bar(position="dodge",binwidth=chart.binwidth) + xlim(0, 50) + ylab("Count") + xlab(expression(paste("Area, ",um^2))) +labs(title = chart.title) + theme_minimal(base_size = 20) +labs(title = chart.title) 
+p + geom_density(alpha=0.2) + xlim(0, 100) + xlab(expression(paste("Area, ",um^2))) +labs(title = chart.title) + theme_minimal(base_size = 20) + labs(title = chart.title) 
 
+
+r <- ggplot(data=PYA,aes(y=Area,x=factor(Compound),fill=factor(Amount))) 
+r + geom_boxplot() + theme_minimal(base_size = 20) + ylim(0, 100) + coord_flip()
+
+
+#+  geom_density(data=PYA,aes(x=Area,fill=factor(Compound)),alpha=0.2)
+q <- ggplot(data=PYA,aes(x=AR))
+q + geom_density(alpha=0.2) + xlim(0, 100) + xlab(expression(paste("Area, ",um^2))) +labs(title = chart.title) + theme_minimal(base_size = 20) + labs(title = chart.title) 
+#position="dodge",binwidth=chart.binwidth
