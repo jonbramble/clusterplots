@@ -1,6 +1,6 @@
 library(ggplot2)
 
-dir = "/home/mbajb/Data/processed"
+dir = "/media/mbajb/Ext Passport/AFM/processed"
 data.sources = list.files(dir,pattern="*.csv",full.names=TRUE)
 all <- lapply(data.sources,function(i){
   tmp <- read.csv(i,stringsAsFactors=FALSE)
@@ -37,6 +37,9 @@ experiment <- "Summary"
 chart.binwidth <- 0.5
 chart.title <- paste("Domain Area",experiment)
 
+rb <- ggplot(data=pbs,aes(x=Area,y=factor(Additive),fill=factor(Additive))) 
+rb + geom_boxplot() + theme_minimal(base_size = 20)
+
 p <- ggplot(data=pbs,aes(x=Area,fill=Additive))
 p + geom_bar(binwidth=chart.binwidth) + xlim(c(0,20)) + xlab(expression(paste("Area, ",um^2))) +labs(title = chart.title) + theme_minimal(base_size = 20) +labs(title = chart.title) 
 file_name = paste(experiment,"area_base.png",sep="_")
@@ -52,10 +55,13 @@ full_path = paste(dir,file_name,sep="")
 ggsave(full_path,width=8,height=8)
 
 
+
+
+
 #pairs(~Area+Round+Feret,data=imgframe, 
 #      main="Simple Scatterplot Matrix")
 
-x<-imgframe$Area
-cfd<-ecdf(x)
-plot(cfd)
+#x<-imgframe$Area
+#cfd<-ecdf(x)
+#plot(cfd)
 

@@ -1,7 +1,7 @@
 library(ggplot2)
 
 experiment = "PYE4001"
-dir = "~/Data/Confocal/PC_PYRONE_ET_281014/PYExp7/processed/"
+dir = "/media/mbajb/My Passport/Jonathan/Nottingham/common/PYExp20/processed/"
 
 file_root = paste(dir,"AVG_PYExp7.lei - ",sep = "")
 file_name = paste(file_root,experiment,sep = "")

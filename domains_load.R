@@ -1,13 +1,12 @@
-dir = "/media/mbajb/My Passport/Jonathan/Nottingham/PC + PYRONE ZE 051114"
+dir = "/media/mbajb/My Passport/Jonathan/Nottingham/common"
 #dir = "~/Data/Confocal/PC_PYRONE_ET_281014"
-experiment = "PYExp12"
-code = "PYE4002"
+experiment = "PYExp20"
+code = "PYZ4003"
 datadir = "processed"
 filepath = paste(dir,experiment,datadir,code,sep="/")
 
-data.sources = list.files(paste(dir,experiment,datadir,sep="/"),pattern="*.csv")
-full_path_sources = paste(dir,data.sources,sep="/")
-dat <- lapply(full_path_sources,read.csv)
+data.sources = list.files(paste(dir,experiment,datadir,sep="/"),pattern="*.csv",full.names=TRUE)
+dat <- lapply(data.sources,read.csv)
 imgdat <- do.call(rbind, dat)
 
 assign(code,imgdat)
