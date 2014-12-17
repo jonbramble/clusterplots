@@ -64,25 +64,25 @@ ipe <- ggplot(data=pye,aes(x=Area,y=(ROIMean/255)*100,shape=factor(Experiment),c
 ipe + geom_point(alpha=0.9) + scale_x_log10() + ylim(ylim) + theme_minimal(base_size = 24) + ylab(ylab) + xlab(xlab) +labs(title = "Compound E")  +
   scale_shape_manual(values = c(0,1,2,3,4,5,6,7,8)) 
 file_name = paste(experiment,"compound_e_area_mean.png",sep="_")
-full_path = paste(dir,file_name,sep="")
+full_path = paste(dir,file_name,sep="/")
 ggsave(full_path,width=12,height=8)
 
 ipt <- ggplot(data=pyt,aes(x=Area,y=(ROIMean/255)*100,shape=factor(Experiment),color=factor(Amount)))
 ipt + geom_point(alpha=0.9) + scale_x_log10() + ylim(ylim) + theme_minimal(base_size = 24) + ylab(ylab) + xlab(xlab) +labs(title = "Compound T")
 file_name = paste(experiment,"compound_t_area_mean.png",sep="_")
-full_path = paste(dir,file_name,sep="")
+full_path = paste(dir,file_name,sep="/")
 ggsave(full_path,width=12,height=8)
 
 ipz <- ggplot(data=pyz,aes(x=Area,y=(ROIMean/255)*100,shape=factor(Experiment),color=factor(Amount)))
 ipz + geom_point(alpha=0.9) + scale_x_log10() + ylim(ylim) + theme_minimal(base_size = 24) + ylab(ylab) + xlab(xlab) +labs(title =  "Compound Z")
 file_name = paste(experiment,"compound_z_area_mean.png",sep="_")
-full_path = paste(dir,file_name,sep="")
+full_path = paste(dir,file_name,sep="/")
 ggsave(full_path,width=12,height=8)
 
-layout(matrix(c(1,2,3,4),2,2)) # optional layout 
-fit <- aov(ROIMean ~ Area*Amount, data = pye)
-plot(fit)
-par(mfrow=c(1,1))
+#layout(matrix(c(1,2,3,4),2,2)) # optional layout 
+#fit <- aov(ROIMean ~ Area*Amount, data = pye)
+#plot(fit)
+#par(mfrow=c(1,1))
 
 #cumulative thingy
 # edcf_pye <- ecdf(pye$Area)
@@ -120,25 +120,39 @@ par(mfrow=c(1,1))
 #dis$path <- paste(paste('"',paste(dir,dis$Session,'processed',paste(dis$ImageName,'-mask"',sep=''),sep='/'),sep=''),"png",sep=".")
 #xtable(dis)
 
+theme = theme_set(theme_minimal(base_size = 12))
+#theme = theme_update(legend.justification=c(1,1), legend.position=c(1,1), legend.key.size = unit(0.3, "cm"))
+
 m <- ggplot(data=pyz,aes(x=Area,fill=factor(Amount)))
-m + geom_bar(position="dodge",binwidth=2) + xlim(0, 100) + xlab(xlab) +labs(title = paste(chart.title," Compound Z")) + theme_minimal(base_size = 24) +
-  scale_fill_discrete(name = "Compound") #+ scale_y_log10()
-file_name = paste(experiment,"hist_z.png",sep="_")
-full_path = paste(dir,file_name,sep="")
-ggsave(full_path,width=12,height=8)
+m + geom_bar(position="dodge",binwidth=2.5) + xlim(0, 100) +labs(title = "Compound (12)" ) + xlab(xlab) + scale_fill_discrete(name = "Amount mol%")
+file_name = paste(experiment,"hist_z_12.tiff",sep="_")
+full_path = paste(dir,file_name,sep="/")
+ggsave(full_path,width=3.33, height=2, unit="in", dpi = 600)
+
+n <- ggplot(data=pyt,aes(x=Area,fill=factor(Amount)))
+n + geom_bar(position="dodge",binwidth=2) + xlim(0, 100) +labs(title = "Compound (1)" ) + xlab(xlab) + scale_fill_discrete(name = "Amount mol%")
+file_name = paste(experiment,"hist_t_1.tiff",sep="_")
+full_path = paste(dir,file_name,sep="/")
+ggsave(full_path,width=3.33,height=2, unit="in", dpi = 600)
+
+o <- ggplot(data=pye,aes(x=Area,fill=factor(Amount)))
+o + geom_bar(position="dodge",binwidth=2) + xlim(0, 100) +labs(title = "Compound (11)" ) +  xlab(xlab) + scale_fill_discrete(name = "Amount mol%")
+file_name = paste(experiment,"hist_e_11.tiff",sep="_")
+full_path = paste(dir,file_name,sep="/")
+ggsave(full_path,width=3.33,height=2, unit="in", dpi = 600)
 
 p <- ggplot(data=PYA,aes(x=Area,fill=factor(Compound)))
 p + geom_density(alpha=0.2) + xlim(0, 100) + xlab(xlab) +labs(title = chart.title) + theme_minimal(base_size = 24) + 
   scale_fill_discrete(name = "Compound")
 file_name = paste(experiment,"area_base_compound.png",sep="_")
-full_path = paste(dir,file_name,sep="")
+full_path = paste(dir,file_name,sep="/")
 ggsave(full_path,width=8,height=8)
 
 pc <- ggplot(data=PYA,aes(x=Area,fill=factor(Amount)))
 pc + geom_density(alpha=0.2) + xlim(0, 100) + xlab(xlab) +labs(title = chart.title) + theme_minimal(base_size = 24) +
   scale_fill_discrete(name = "Amount %")
 file_name = paste(experiment,"area_base_amount.png",sep="_")
-full_path = paste(dir,file_name,sep="")
+full_path = paste(dir,file_name,sep="/")
 ggsave(full_path,width=8,height=8)
 
 #scaled data test
@@ -149,18 +163,24 @@ ggsave(full_path,width=8,height=8)
 #   xlim(0, 100) + xlab(xlab) +labs(title = chart.title) + theme_minimal(base_size = 24) + labs(title = chart.title) + 
 #   scale_fill_discrete(name = "Compound")
 # 
+
+theme = theme_set(theme_minimal(base_size = 16))
+theme = theme_update(panel.grid.major.x=element_blank())
+
 r <- ggplot(data=PYA,aes(y=Area,x=factor(Compound),fill=factor(Amount))) + coord_flip()
-r + geom_boxplot() + scale_y_log10()+ theme_minimal(base_size = 24) +   scale_fill_discrete(name = "Amount %") + ylab(xlab) + xlab("Compound")
- file_name = paste(experiment,"compound_amount.png",sep="_")
- full_path = paste(dir,file_name,sep="")
- ggsave(full_path,width=10,height=10)
+r + geom_boxplot() + scale_y_log10() + ylab(xlab) + xlab("Compound") +
+  scale_fill_discrete(name = "Amount %")
+ file_name = paste(experiment,"compound_amount.tiff",sep="_")
+ full_path = paste(dir,file_name,sep="/")
+ ggsave(full_path,width=3.33, height=3.33, unit="in", dpi = 600)
 # 
 s <- ggplot(data=PYA,aes(y=Area,x=factor(Amount),fill=factor(Compound))) + coord_flip()
-s + geom_boxplot() + scale_y_log10()+ theme_minimal(base_size = 24) +   
-   scale_fill_discrete(name = "Compound") + ylab(xlab) + xlab("Amount %")
- file_name = paste(experiment,"amount_compound.png",sep="_")
- full_path = paste(dir,file_name,sep="")
- ggsave(full_path,width=10,height=10)
+s + geom_boxplot(linetype="solid",outlier.size=1) + scale_y_log10() +   
+   scale_fill_discrete(name = "Compound", breaks=c("E", "T", "Z"),
+                       labels=c("11", "1", "12")) + ylab(xlab) + xlab("Amount %")
+ file_name = paste(experiment,"amount_compound2.tiff",sep="_")
+ full_path = paste(dir,file_name,sep="/")
+ ggsave(full_path,width=6.66, height=6.66, unit="in", dpi = 300)
 
 # generate some filenames
 #dis <- as.data.frame(table(PYA$ImageCode), responseName="Count")

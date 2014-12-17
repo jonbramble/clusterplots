@@ -1,13 +1,12 @@
 
-data_dir = "/media/mbajb/data/Experimental/Confocal/PC_PYRONE_ET_281014"
+data_dir = "/media/mbajb/data/Experimental/Confocal/DOPCSMChol 111214"
 #data_dir = "/media/mbajb/data/Experimental/Confocal/PC_PYRONE_ZE_051114"
 
-source('~/Programming/R/clusterplot/config.R')
-source('~/Programming/R/clusterplot/compound.R')
+source('~/Programming/R/clusterplot/config_jlc.R')
 source('~/Programming/R/clusterplot/exp_match.R')
 
 processed="processed"
-exp_dirs = dir(data_dir,pattern="^PY")
+exp_dirs = dir(data_dir,pattern="^JL")
 
 for (i in 1:length(exp_dirs)){
   experiment <- exp_dirs[i]
