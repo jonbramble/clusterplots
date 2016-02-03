@@ -2,7 +2,7 @@ library(ggplot2)
 library(plyr)
 library(reshape2)
 
-dir = "/media/mbajb/data/Experimental/Confocal/lanthanide processed"
+dir = "/media/mbzjpb/data/Experimental/Confocal/lanthanide processed/"
 data.sources = list.files(dir,pattern="*.txt",full.names=TRUE)
 annotate <- function(f){
   dat <- read.table(f)

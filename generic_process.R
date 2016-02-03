@@ -1,6 +1,4 @@
 library(ggplot2)
-library(plyr)
-library(reshape2)
 
 #assumes a single dir containing dirs with each lei file and a processed dir
 #path in windows must be escaped c://path//to//folder
@@ -14,7 +12,7 @@ data_processed_dirs <- file.path(data_dir,data_dirs,"processed")
 data.sources <- list.files(data_processed_dirs,pattern="*.csv",full.names=TRUE)
 #read in all the data and convert to a dataframe - this is potentially slow - it might break here if
 #there are csv files with the wrong names or missing columns
-df_all <- data.frame(do.call("rbind", lapply(data.sources,read.csv,header=TRUE)))
+df_all <- data.frame(do.call("rbind", lapply(data.sources,read.table,sep=",",header=TRUE,colClasses=c("Type"="character"))))
 
 df_filter <- subset(df_all,Area > 1)       # ### !!!! prefilter here of all tiny domains !!!! ####
 
@@ -25,3 +23,8 @@ m + geom_bar(position="dodge",binwidth=1) + xlim(0,50) + theme_minimal(base_size
 
 p <- ggplot(data=subset(df_filter,Buffer=="PBS"),aes(x=Area,fill=factor(Lipid)))
 p + geom_bar(position="dodge",binwidth=1) + xlim(0,50) + theme_minimal(base_size = 24)
+
+df_time<- subset(df_filter,Buffer="Tris" & Type == "T")
+m <- ggplot(data=df_time,aes(x=Area,fill=factor(Time)))
+m + geom_bar(position="dodge",binwidth=5) +xlim(0,50) + theme_minimal(base_size = 24)
+
